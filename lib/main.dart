@@ -42,7 +42,7 @@ class _BLEControlPageState extends State<BLEControlPage> {
   QualifiedCharacteristic? _qualifiedCharacteristic;
   bool _isConnected = false;
   bool _isScanning = false;
-  String _statusMessage = ''; // Add this line to define the variable
+  String _statusMessage = '';
   Color _connectionStatusColor = Colors.red;
   @override
   @override
@@ -76,8 +76,6 @@ class _BLEControlPageState extends State<BLEControlPage> {
         await Permission.location.request();
       }
     } else {
-      // Non-Android platforms go here (iOS, etc.)
-      // For iOS, you'll need to request the location permission for BLE operations
       var locationStatus = await Permission.location.status;
       if (!locationStatus.isGranted) {
         await Permission.location.request();
@@ -119,8 +117,6 @@ class _BLEControlPageState extends State<BLEControlPage> {
     setState(() {
       _isScanning = false;
       _statusMessage = 'Scan completed';
-      // Optionally clear the list if you want to start fresh next time
-      // _foundBleDevices.clear();
     });
   }
 
@@ -242,7 +238,7 @@ class _BLEControlPageState extends State<BLEControlPage> {
   void dispose() {
     _scanStreamSubscription?.cancel();
     _connectionSubscription?.cancel();
-    _feedbackSubscription?.cancel(); // Add this line
+    _feedbackSubscription?.cancel();
     super.dispose();
   }
 
@@ -269,12 +265,10 @@ class _BLEControlPageState extends State<BLEControlPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Centered status bar
             Container(
               padding: const EdgeInsets.all(8.0),
               color: _connectionStatusColor,
               child: Center(
-                // Center widget added here
                 child: Text(
                   _statusMessage,
                   style: const TextStyle(color: Colors.white),
