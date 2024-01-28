@@ -18,30 +18,30 @@ void setup() {
   BLE.setAdvertisedService(myService); // Set the advertised service
   myService.addCharacteristic(commandCharacteristic); // Add characteristics to the service
   BLE.addService(myService); // Add the service
-  commandCharacteristic.writeValue("LED OFF"); // Set initial value for the characteristic
+  commandCharacteristic.writeValue("LED OFF");
 
   BLE.advertise(); // Start advertising
   Serial.println("BLE LED Control service advertised, ready to connect...");
 }
 
 void loop() {
-  BLEDevice central = BLE.central(); // Wait for a BLE central to connect
+  BLEDevice central = BLE.central(); 
 
-  // If a central is connected to the peripheral:
+
   if (central) {
     Serial.print("Connected to central: ");
     Serial.println(central.address());
 
-    while (central.connected()) { // While the central is still connected
-      if (commandCharacteristic.written()) { // If the characteristic was written to by central
+    while (central.connected()) { 
+      if (commandCharacteristic.written()) { 
         String command = commandCharacteristic.value(); // Read the command
 
        if (command == "on") {
-  digitalWrite(LED_BUILTIN, HIGH); // Turn on the built-in LED
-  commandCharacteristic.writeValue("LED ON"); // Notify the central device
+  digitalWrite(LED_BUILTIN, HIGH); 
+  commandCharacteristic.writeValue("LED ON"); 
 } else if (command == "off") {
-  digitalWrite(LED_BUILTIN, LOW); // Turn off the built-in LED
-  commandCharacteristic.writeValue("LED OFF"); // Notify the central device
+  digitalWrite(LED_BUILTIN, LOW); // 
+  commandCharacteristic.writeValue("LED OFF"); 
 }
 
       }
